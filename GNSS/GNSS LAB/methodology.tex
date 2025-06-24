@@ -1,0 +1,10 @@
+\section{Tools and Methods}
+\begin{itemize}
+    \item \textbf{Device:} Samsung Galaxy S23 Ultra smartphone, running Android 15, equipped with the Snapdragon 8 Gen 2 Qualcomm SM8550-AB chipset, which supports dual-frequency, multi-constellation GNSS (GPS, Glonass, NavIC, Beidou, Galileo, QZSS). \cite{samsungs23ultra}
+    \item \textbf{GNSS data collection:} "GNSSLogger" app, version 3.1.0.4 \cite{gnssLoggerApp} | "GPSTest" app, version 3.10.5 \cite{gpsTestApp} | "Google Earth" app, version 10.79.0.3. \cite{googleEarthApp}
+    \item \textbf{Geoid height calculator:} GeographicLib web app. \cite{geoidHeightCalculator}
+    \item \textbf{Data analysis:} MATLAB R2024b \cite{matlab} | gps-measurement-tools suite \cite{gpsMeasurementToolsCodebase}, developed by Google, enhanced by the NavSAS research group of Polytechnic of Turin \cite{navSAS} | "Location Based Analysis of Visible GPS Satellites" example notebook from MATLAB Satellite Communications Toolbox. \cite{skyplotsNotebook}
+\end{itemize}
+Every log contains 5 minutes of uninterrupted data sampled at [45.047208 N, 7.655716 W, 250 m a.s.l.] (Parco Cavalieri di Vittorio Veneto, Turin, Italy) (fig. \ref{fig:map}), isolated approximately 20 meters from nearby obstructions and under fair weather conditions, ensuring minimal multipath interference and optimal
+reception. All user-space power-saving options were turned off and the device was put in Airplane mode during logging.
+\label{sec:tools}

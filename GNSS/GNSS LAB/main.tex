@@ -1,0 +1,158 @@
+% !TEX option = -shell-escape
+
+% \newcommand{\compacttitlespacing}{0} %disable when we need room for authors
+\documentclass[sigconf, review]{acmart}
+\newcommand{\sub}[2]{\text{#1}_{\text{#2}}}
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\setcopyright{none}
+% defining the \BibTeX command - from Oren Patashnik's original BibTeX documentation.
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08emT\kern-.1667em\lower.7ex\hbox{ E}\kern-.125emX}}
+\usepackage{nicefrac}
+\usepackage{siunitx}
+\usepackage{tabularx}
+\usepackage{minted}
+\usepackage{svg}
+\usepackage{url}
+\usepackage{array,framed}
+\usepackage{booktabs}
+\usepackage{
+  color,
+  float,
+  epsfig,
+  wrapfig,
+  graphics,
+  graphicx,
+  subcaption
+}
+% \usepackage[dvipsnames]{xcolor}
+\let\Bbbk\relax
+\usepackage{textcomp,amssymb}
+\usepackage{setspace}
+% \usepackage{amsfonts}
+\usepackage{latexsym,fancyhdr,url}
+\usepackage{enumerate}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{graphics}
+\usepackage{xparse} % argument parsing -- \edist
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{csvsimple}
+\usepackage{balance}
+% \usepackage{flushend}
+% \usepackage{mathptmx,avant}
+\usepackage{caption}
+\captionsetup{skip=10pt}
+
+%%%% Tikz variables, pgfplot
+\usepackage{
+  tikz,
+  pgfplots,
+  pgfplotstable
+}
+\usepackage{hyperref}
+
+\usetikzlibrary{
+  shapes.geometric,
+  arrows,
+  external,
+  pgfplots.groupplots,
+  matrix
+}
+
+\pgfplotsset{compat=1.9}
+% \tikzexternalize[prefix=images/]
+% \tikzexternalenable
+
+%\pagenumbering{arabic}
+% \pagestyle{plain}
+
+\usepackage{mathtools,}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+% \setmathfont{Latin Modern Math}[version=lm]
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+% \DeclareSymbolFont{operators}{T1}{cmr}{m}{n}
+% \DeclareSymbolFont{letters}{OML}{cmm}{m}{it}
+% \DeclareSymbolFont{symbols}{OMS}{cmsy}{m}{n}
+% \DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n}
+
+% \usepackage{times}
+
+% \setmathcal{Arial}
+
+% TO deal with the weird flow of boxes
+% \brokenpenalty=1000
+% \clubpenalty=1000
+% \widowpenalty=10
+\DeclareGraphicsExtensions{%
+    .png,.PNG,%
+    .pdf,.PDF,%
+    .jpg,.mps,.jpeg,.jbig2,.jb2,.JPG,.JPEG,.JBIG2,.JB2}
+
+\input{defs}
+\setlength{\belowcaptionskip}{-10pt} 
+\setlength{\footskip}{30pt}
+\setlength{\abovecaptionskip}{5pt plus 3pt minus 2pt}
+
+
+\usemintedstyle{monokai}
+\definecolor{codeBg}{HTML}{282822}
+\definecolor{textBg}{HTML}{1c1c17}
+
+\setminted[python]{
+    breaklines=true,
+    encoding=utf8,
+    fontsize=\footnotesize,
+    bgcolor=codeBg
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%\fontfamily{lmr}\selectfont
+% \def\thetitle{A Practical Way to Generate Strong Keys from Noisy Data}
+%\fancyhead{}
+\def\thetitle{GNSS Lab Report}
+\title{\thetitle}
+
+\author{Wi-Failing}
+\affiliation{\small{Ciriaco Alifano, Gabriele Camisa, Simone Giammusso, Matteo Rizzo}}
+
+\date{}
+
+
+% \input{abstract}
+\maketitle
+\keywords{LaTeX template, ACM CCS, ACM}
+
+% \sloppy
+% \raggedbottom
+
+
+% Section I
+\input{intro}    % basic introduction
+% \input{background}
+\input{methodology}
+\input{opensky}
+\input{spoofing}
+\input{interference}
+
+\input{conclusion}
+\onecolumn
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib}
+% % --- Appendix ---%
+\appendix
+\input{appendix}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
