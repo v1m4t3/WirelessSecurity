@@ -1,0 +1,7 @@
+\section{Introduction}
+\label{sec:intro}
+The goal of this experiment was to test the goodput in three different network scenarios: Ethernet, Wi-Fi, and Wi-Fi with an antenna placed in saltwater. The main goal was to predict the expected results beforehand by calculating the maximum theoretical goodput (TMG) (\ref{TMG}) and then compare these predictions with the actual test results.
+
+To perform the tests and analyze the results, we used a Python script (\ref{sec:python}), configured to run 10 iterations of each \texttt{iperf3} test, each one of 10 seconds each, first in normal mode (client sending data to the server) and then in reverse mode (client receiving data from the server). The script also captured the goodput on the receiver side, which is the key metric of interest in this study, and computed aggregated statistics over the 10 iterations, such as Average and Standard Deviation.
+
+During each test, the script also captured packets traveling through the client's interface, generating 10 PCAP files per test. Throughout the report, we present various graphs, some of which are based on a single representative PCAP file; these were selected either because they reflect the general trend of the results or because they highlight a particularly relevant aspect of the experiment.

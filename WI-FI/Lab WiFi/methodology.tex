@@ -1,0 +1,85 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tools and devices}
+\label{sec:tools}
+% \begin{itemize}
+%  \item Hardware
+%         \begin{itemize}
+%             \item Alice (Laptop \#1)
+%             \begin{itemize}
+%                 \item USB Wi-Fi Adapter RTL8812AU \cite{rtl8812au}\hfill\\
+%                 (2 TX x 2 RX, 802.11ac, 1200 Mbit/s, 2.4/5 GHz, 80 MHz)
+%                 \item TP-Link UE306 Ethernet USB 3.0 adapter 10/100/1000 \cite{tplinkue306} + Cat 8 Ethernet Cable
+%                 \item USB 3.0, OS: Ubuntu 22.04 LTS
+%             \end{itemize}
+%             \item Bob (Laptop \#2)
+%       \begin{itemize}
+%        \item Intel Wireless-AC 9560 \cite{intelac9560} (2 TX x 2 RX, 802.11ac, 1.73 Gbit/s, 2.4/5 GHz, 160 MHz)
+%                 \item Realtek 10/100/1000 GbE NIC + Cat 5e Ethernet Cable
+%                 \item USB 3.0, OS: Ubuntu 24.04 LTS
+%             \end{itemize}
+%             \item Iliadbox Wi-Fi 6 Home Router \cite{iliadbox} (2 TX x 2 RX @2.4 GHz, 4 TX x 4 RX @5 GHz, 802.11ax, 2x Ethernet 1 Gbit/s)
+%         \end{itemize}
+%     \item Software
+%     \begin{itemize}
+%         \item \texttt{iperf3} (v3.9), Python (v3.10.12), \texttt{tcpdump} (v4.99.1) \hfill\\+ \texttt{libpcap} (v1.10.1, \texttt{TPACKET\_V3}), Wireshark (v4.4.3)
+%     \end{itemize}
+% \end{itemize}
+\begin{itemize}
+    \item Hardware
+    \begin{itemize}
+        \item Alice (Laptop \#1)  
+        \begin{itemize}
+            \item USB Wi-Fi Adapter RTL8812AU \cite{rtl8812au} (2 TX x 2 RX | 802.11ac | 1200 Mbit/s | 2.4/5 GHz | 80 MHz)
+            \item TP-Link UE306 Ethernet USB 3.0 adapter \cite{tplinkue306} + Cat 8 Ethernet Cable
+            \item USB 3.0 | OS: Ubuntu 22.04 LTS
+        \end{itemize}
+        \item Bob (Laptop \#2)  
+        \begin{itemize}
+            \item Intel Wireless-AC 9560 \cite{intelac9560} (2 TX x 2 RX | 802.11ac | 1.73 Gbit/s | 2.4/5 GHz | 160 MHz)
+            \item Realtek 10/100/1000 GbE NIC + Cat 5e Ethernet Cable
+            \item USB 3.0 | OS: Ubuntu 24.04 LTS
+        \end{itemize}
+        \item Iliadbox Wi-Fi 6 Home Router \cite{iliadbox} (2 TX x 2 RX @2.4 GHz | 4 TX x 4 RX @5 GHz | 802.11ax | 2x Ethernet 1 Gbit/s)
+    \end{itemize}
+    \item Software  
+    \begin{itemize}
+        \item \texttt{iperf3} (v3.9) | Python (v3.10.12) | \texttt{tcpdump} (v4.99.1) + \texttt{libpcap} (v1.10.1, \texttt{TPACKET\_V3}) | Wireshark (v4.4.3)
+    \end{itemize}
+\end{itemize}
+\section{Formulas and theory}
+\subsection{Capacity, Throughput and Goodput definitions}
+    \begin{itemize}
+        \item Capacity ($C$): The theoretical maximum data rate a network link can support, typically measured in Mbit/s or Gbit/s.
+        \item Throughput ($T$): The total amount of data (including payload, retransmissions, and protocol overhead) successfully transmitted over a network in a given period. 
+        \item Goodput ($G$): The portion of throughput that considers only useful application data, excluding retransmissions and protocol overhead, transmitted in the period.
+    \end{itemize}
+    
+    \subsubsection{Theoretical Maximum Goodput (TMG)}
+    \label{TMG}
+    Even under ideal conditions (no packet losses, no idle time, no MAC layer fragmentation), the maximum goodput reachable is by definition lower than the maximum throughput, since it's affected by the unavoidable protocol overheads. In fact, the relation $G<T<C$ always holds. 
+    
+    In addition, the goodput you would measure in a real situation could differ from TMG, because of various reasons (collisions, idle times, driver bugs, environmental conditions etc.). This creates the need for a formula for Theoretical Maximum Goodput (TMG), which reflects the upper bound for the measurable goodput in a given context: $\text{TMG}=\eta_{\text{protocols}}\cdot C$.
+    
+    $\eta$ (the "efficiency" of one or more given protocols) represents the impact of the total overhead across those protocol layers. Considering several layers, the total efficiency is the product of the individual $\eta$ of the various layers. Additionally, it can be measured in two main ways:
+    \begin{itemize}
+        \item Data-based approach: $\eta=\frac{\text{App Payload (B)}}{\text{App Payload (B)}\ +\ \text{Overheads (B)}}$
+        \item Time-based approach: $\eta=\frac{\text{App Payload TX time}}{\text{Total TX time}}$
+    \end{itemize}
+\subsection{Useful computations}
+\label{subsec:computations}
+\begin{itemize}
+    \item We are considering the Ethernet header as part of the overheads even in Wi-Fi communications, since 802.11 networks encapsulate Ethernet frames within 802.11 frames before transmission, to ensure compatibility with wired.
+    \item It's also important to note that the overhead of TCP is not of fixed size, due to possible TCP options being exchanged. In fact, in our experiments, we noted a total size of 32 \text{B} (20 \text{B} of header + \text{12} of options).
+    \item $\sub{MSS}{TCP}= \sub{MTU}{Eth}-\sub{Header}{IP}-\sub{Header}{TCP}= (1500 - 20 - 32)\ \text{B}= 1448\ \text{B}$
+    \item $\eta_{\text{TCP}}$ is the efficiency of the layers above 802.11, up to TCP, in terms of data bytes exchanged over total bytes exchanged to send a MSS segment. 
+    \begin{itemize}
+        \item $\eta_{\text{TCPoFD}}= \frac{\sub{MSS}{TCP}}{\sub{MSS}{TCP} + \sub{Header}{TCP} + \sub{Header}{IP} + \sub{Overhead}{Eth}}\\ =\frac{1448\ \text{B}}{1448+32+20+38\ \text{B}} =94\%$
+        \item $\eta_{\text{TCPoHD}}= \frac{\sub{MSS}{TCP}}{\sub{PktLen}{Data}+\sub{PktLen}{ACK}}
+\\=\frac{1448\ \text{B}}{(1448+32+20+38)+(32+20+38)\ \text{B}}=89\%$
+    \end{itemize}
+    \item $\eta_{\text{802.11}}$ is the efficiency of the layers up to 802.11. When considering the goodput at the application layer over a Wi-Fi
+channel, we will assume $\eta_{\text{802.11}}\approx 80\%$ without performing
+detailed computations, since precisely determining this efficiency is complicated
+by the peculiar mechanisms of channel bonding, MU-MIMO and frame
+aggregation in the modern standards.
+\end{itemize}
